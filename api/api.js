@@ -8,13 +8,8 @@ const v1 = express.Router();
 app.use('/api/v1', v1);
 
 v1.get('/people', async (request, response) => {
-    try {
-        const filesInfo = await peopleService.getPeople();
-        response.send(filesInfo);
-    } catch(e) {
-        console.log('error ocurs ', e);
-        response.sendStatus(500);
-    }
+    const filter = request.query;
+    return response.send(peopleService.getPeople(filter));
 });
 
 

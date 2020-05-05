@@ -11,8 +11,7 @@ module.exports = class PeopleService {
         // To be implemented!
     }
     
-    getPeople(response) {
-        console.log(this.peoples)
-        response.send(this.peoples);
+    getPeople() {
+        return this.peoples;
     }
 }

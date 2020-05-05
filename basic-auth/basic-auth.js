@@ -7,16 +7,17 @@ function sha1Encode(data) {
 module.exports.digestAuth = (request, response, next) => {
     const authorization = request.headers.authorization;
     console.log(authorization)
-    const var2 = authorization.replace('Basic ', '');
-    
-    const encoded = sha1Encode(var2)
+    const encoded = authorization.replace('Basic ', '');
 
-    const decoded = Buffer.from(encoded, 'hex').toString('utf8').split(':');
+    const decoded = Buffer.from(encoded, 'base64').toString('utf8')
 
-    
-    const isValid = decoded[0] === 'node'
-    && decoded[1] === 'password';
+    const authentication = decoded.split(":");
+
+    const isValid =
+    authorization &&
+    authentication[0] === "node" &&
+    authentication[1] === sha1Encode("password");
 
     // si pas authentifié
     isValid ? next() : response.sendStatus(401);
-}
+};
